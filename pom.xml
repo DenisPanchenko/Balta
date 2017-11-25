@@ -119,13 +119,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-    <organization>
-        <name>EPAM Systems</name>
-        <url>http://epam.com</url>
-    </organization>
-    <issueManagement>
-        <system>GIT</system>
-        <url>https://git.epam.com/yuriy_tkach/spring-core-hometask-skeleton/issues</url>
-    </issueManagement>
 </project>

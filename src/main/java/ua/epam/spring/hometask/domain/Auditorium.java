@@ -7,9 +7,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-/**
- * @author Yuriy_Tkach
- */
 public class Auditorium {
 
     private String name;
@@ -49,7 +46,7 @@ public class Auditorium {
     }
     
     public Set<Long> getAllSeats() {
-        return LongStream.range(1, numberOfSeats+1).boxed().collect(Collectors.toSet());
+        return LongStream.range(1, numberOfSeats + 1).boxed().collect(Collectors.toSet());
     }
 
     public Set<Long> getVipSeats() {

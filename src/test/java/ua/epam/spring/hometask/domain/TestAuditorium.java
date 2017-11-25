@@ -8,9 +8,6 @@ import java.util.stream.Stream;
 
 import org.junit.Test;
 
-/**
- * @author Yuriy_Tkach
- */
 public class TestAuditorium {
 	
 	@Test
