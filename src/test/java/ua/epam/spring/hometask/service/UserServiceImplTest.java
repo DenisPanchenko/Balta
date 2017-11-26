@@ -1,53 +1,110 @@
 package ua.epam.spring.hometask.service;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ua.epam.spring.hometask.domain.User;
-import ua.epam.spring.hometask.repository.UserRepository;
-import ua.epam.spring.hometask.repository.impl.UserRopositoryImpl;
-import ua.epam.spring.hometask.service.impl.UserServiceImpl;
+
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:user-service-test.xml")
 public class UserServiceImplTest  {
 
-    private static UserService userService;
-    private UserRepository repository;
+    @Autowired
+    private UserService userService;
 
-    @BeforeClass
-    public static void beforeAll() {
-        userService = new UserServiceImpl();
+    @Test
+    public void getAllTest() {
+        // When
+        Collection<User> result = userService.getAll();
+
+        // Then
+        assertEquals(2, result.size());
     }
 
-    @Before
-    public void beforeEach() {
-        repository = new UserRopositoryImpl();
+
+    @Test
+    public void getByIdTest() {
+        // Given
+        Long id = 1L;
+
+        // When
+        User actualResult = userService.getById(id);
+
+        // Then
+        assertEquals(id, actualResult.getId());
     }
 
     @Test
-    public void findAllTest() {
+    public void getByIdTestExeption() {
+        // Given
+        Long id = 100L;
+
+        // When
+        User actualResult = userService.getById(id);
+
+        // Then
+        assertEquals(null, actualResult);
+    }
+    
+    @Test
+    public void getByEmailTest() {
+        // Given
+        String email = "user0@gmail.com";
+
+        // When
+        User actualResult = userService.getUserByEmail(email);
+
+        // Then
+        assertEquals(0L, actualResult.getId().longValue());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void getByEmailTestException() {
+        // Given
+        String email = "ABSENT@EMAIL.COM";
+
+        // Then
+        userService.getUserByEmail(email);
+    }
+
+    @Test
+    public void saveTest() {
+        // Given
+        User newUser = new User();
+        newUser.setId(2L);
+        newUser.setEmail("user2");
+
+        // When
+        User addedUser = userService.save(newUser);
+
+        // Then
+        assertEquals(addedUser, newUser);
+
+        // Rollback
+        userService.remove(newUser);
+    }
+
+    @Test
+    public void deleteTest() {
         // Given
         User user0 = new User();
         user0.setId(0L);
-        User user1 = new User();
-        user1.setId(1L);
-        User user2 = new User();
-        user2.setId(2L);
-        repository.save(user0);
-        repository.save(user1);
-        repository.save(user2);
+        user0.setEmail("user0@gmail.com");
 
         // When
-        User[] result = (User[])userService.getAll().toArray();
+        userService.remove(user0);
 
         // Then
-        assertEquals(result[0], user0);
-        assertEquals(result[1], user1);
-        assertEquals(result[2], user2);
-    }
+        assertEquals(1, userService.getAll().size());
 
+        // Rollback
+        userService.save(user0);
+    }
 }

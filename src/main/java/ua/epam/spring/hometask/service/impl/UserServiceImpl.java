@@ -14,6 +14,10 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Nullable
     @Override
     public User getUserByEmail(@Nonnull String email) {

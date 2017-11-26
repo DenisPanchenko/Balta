@@ -5,10 +5,16 @@
  		http://www.springframework.org/schema/beans
  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-    <bean id="UserRepository" class="ua.epam.spring.hometask.repository.impl.UserRepositoryImpl"/>
+    <bean id="userRepository" class="ua.epam.spring.hometask.repository.impl.UserRepositoryStaticMapImpl"/>
 
-    <bean id="UserService" class="ua.epam.spring.hometask.service.impl.UserServiceImpl">
-        <property name="userRepository" ref="UserRepository"/>
+    <bean id="auditoriymRepository" class="ua.epam.spring.hometask.repository.impl.UserRepositoryStaticMapImpl"/>
+
+    <bean id="userService" class="ua.epam.spring.hometask.service.impl.UserServiceImpl">
+        <property name="userRepository" ref="userRepository"/>
+    </bean>
+
+    <bean id="auditoriumService" class="ua.epam.spring.hometask.service.impl.AuditoriumServiceImpl">
+        <property name="auditoriumRepository" ref="auditoriumRepository"/>
     </bean>
 
 </beans>
